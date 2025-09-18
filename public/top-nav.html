@@ -464,186 +464,268 @@
   </div>
 
   <iframe id="main-frame" src="main.html" style="background:var(--bgcolor);"></iframe>
-  <div class="settings-wrapper">
-    <div class="settings-buttons">
-      <button data-section="cloaking" class="active"><i class='bx bx-ghost'></i> Cloaking</button>
-      <button data-section="customization" class="active"><i class='bx bx-edit'></i> Modification</button>
-      <button data-section="misc"><i class='bx bx-info-circle'></i>
-        Miscellaneous</button>
+    <div class="settings-wraper">
+      <div class="settings-buttons">
+        <button data-section="disguise" class="active">
+          <i class="bx bx-ghost"></i> Masking
+        </button>
+        <button data-section="customization" class="active">
+          <i class="bx bx-edit"></i> Customization
+        </button>
+        <button data-section="misc">
+          <i class="bx bx-info-circle"></i> Miscellaneous
+        </button>
+      </div>
+      <div class="settings-content">
+        <div id="misc" class="setting-section">
+          <div class="settings-grid">
+            <div class="setting-card">
+              <h1>Debug Options</h1>
+              <p class="desc">
+                Shows your FPS, Ping and CPU Usage on this website (is NOT
+                logged)
+              </p>
+              <button id="enableBtn">Enable Debug</button>
+              <button id="disableBtn" class="btn">Disable Debug</button>
+            </div>
+
+            <div class="setting-card">
+              <h1>Ads</h1>
+              <p class="desc">Enable or disable ads (on by default).</p>
+              <label class="switch">
+                <input type="checkbox" id="adsToggle" />
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-card">
+              <h1>Music</h1>
+              <p class="desc">
+                Choose a background music preset or upload your own.
+              </p>
+              <select id="musicSelect">
+                <option value="none">None</option>
+                <option value="solidground">
+                  On Solid Ground? - Jefe (lay down remix)
+                </option>
+                <option value="pearto">My Name is Teto Pear</option>
+                <option value="truelove">
+                  True Love - Kanye West ft. XXXTENTACION
+                </option>
+                <option value="olympian">OLYMPIAN - Playboi Carti</option>
+                <option value="cancun">Cancun - Playbert Carti 👅</option>
+                <option value="cknose">C0CAINE NOSE - Playboi Carti</option>
+                <option value="eviljrdn">Evil Jordan - Playboi Carti</option>
+                <option value="fomdj">FOMDJ/GWAGON - Playboi Carti</option>
+                <option value="2024">2024 - Playboi Carti</option>
+                <option value="diffday">
+                  Different Day/Criteria - Playboi Carti
+                </option>
+                <option value="backrooms">
+                  BACKR00MS - Playboi Carti and Travis Scott
+                </option>
+                <option value="24songs">24Songs - Playboi Carti</option>
+                <option value="dgmn">DRVGS GOT ME NUMB - Playboi Carti</option>
+                <option value="custom">Custom Upload</option>
+              </select>
+              <input
+                type="file"
+                id="musicUpload"
+                accept="audio/*"
+                style="display: none"
+              />
+              <button id="playBtn" class="btn">Play Music</button>
+              <button id="stopBtn" class="btn">Stop Music</button>
+              <input
+                type="range"
+                id="volumeControl"
+                min="0"
+                max="100"
+                value="50"
+              />
+            </div>
+
+            <div class="setting-card">
+              <h1>Translator</h1>
+              <p class="desc">Translates the website to whatever you choose.</p>
+              <div
+                style="
+                  background: transparent;
+                  border-radius: 4px;
+                  width: 300px;
+                "
+                id="google_translate_element"
+              ></div>
+
+              <script type="text/javascript">
+                function googleTranslateElementInit() {
+                  new google.translate.TranslateElement(
+                    {
+                      pageLanguage: "en",
+                      layout:
+                        google.translate.TranslateElement.InlineLayout
+                          .HORIZONTAL,
+                    },
+                    "google_translate_element"
+                  );
+                }
+              </script>
+              <script
+                type="text/javascript"
+                src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+              ></script>
+            </div>
+
+            <div class="setting-card">
+              <h1>About</h1>
+              <p><strong>Version:</strong> 7.0.0</p>
+              <p class="rtabtxt">
+                This is the 7th version of jოw, which is a
+                complete rewrite of the previous versions.
+              </p>
+              <p class="rtabtxt">
+                This version is built with a focus on performance, stability,
+                fun, and user experience.
+              </p>
+              <p class="rtabtxt">
+                If you have any issues or suggestions, please feel free to open
+                an issue on the GitHub repository.
+              </p>
+              <p>
+                <strong>GitHub:</strong>
+                <a
+                  href="//github.com/JustJxrdanWasDefinetlyTaken/jmw-node"
+                  target="_blank"
+                  >Repository</a
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+        <div id="disguise" class="setting-section active">
+          <div class="settings-grid">
+            <div class="setting-card">
+              <h1>Tab Disguiser</h1>
+              <p class="desc">
+                Makes your tab appear to teachers that you're on an educational
+                site.
+              </p>
+              <select id="presetSelect">
+                <option value="">Select</option>
+                <option value="google">Google</option>
+                <option value="classroom">Google Classroom</option>
+                <option value="bing">Bing</option>
+                <option value="nearpod">Nearpod</option>
+                <option value="powerschool">PowerSchool</option>
+                <option value="chrome">Chrome</option>
+                <option value="edge">Microsoft Edge</option>
+                <option value="lausd">LAUSD Hσmepage</option>
+              </select>
+              <input type="text" id="customTitle" placeholder="Custom title" />
+              <input type="text" id="customFavicon" placeholder="Favicon URL" />
+              <button style="width: 100%" id="applyBtn">Apply</button>
+              <button style="width: 100%" id="resetBtn" class="btn">
+                Reset
+              </button>
+            </div>
+            <div class="setting-card">
+              <h1>Panic Key Settings</h1>
+              <p class="desc">
+                Makes it easier and quicker to swap to an educational site.
+              </p>
+              <p class="SBT">Choose a key to redirect yourself.</p>
+              <input
+                type="text"
+                id="hotkey-input"
+                placeholder="Press any key..."
+                maxlength="1"
+              />
+              <button style="width: 100%" id="change-hotkey-btn">
+                Set Hotkey
+              </button>
+
+              <p class="SBT">Redirect URL</p>
+              <input
+                type="text"
+                id="redirect-url-input"
+                placeholder="Enter URL..."
+              />
+              <button style="width: 100%" id="change-URL-btn">
+                Update URL
+              </button>
+            </div>
+
+            <div class="setting-card">
+              <h1>A:B Masking</h1>
+              <p class="desc">Masks your tab while hiding history.</p>
+              <label class="switch">
+                <input type="checkbox" id="aboutBlankToggle" />
+                <span class="slider"></span>
+              </label>
+              <br />
+              <br />
+            </div>
+            <div class="setting-card">
+              <h1>Open in BL0B</h1>
+              <p class="desc">Opens the site in a BL0B string.</p>
+              <button onclick="launchBlob()" class="btn">Launch in BLOB</button>
+            </div>
+            <div class="setting-card">
+              <h1>Anti-Tab Close</h1>
+              <p class="desc">
+                Makes your immune to being closed by teachers, useful for
+                most filters.
+              </p>
+              <label class="switch">
+                <input type="checkbox" id="toggleLeavePopup" />
+                <span class="slider"></span>
+              </label>
+              <br />
+              <br />
+            </div>
+          </div>
+        </div>
+        <div id="customization" class="setting-section">
+          <div class="settings-grid">
+            <div class="setting-card">
+              <h1>Themes</h1>
+              <p class="desc">Customize the page how you like it.</p>
+              <select id="themepicker">
+                <option value="select" disabled selected>Select Theme</option>
+                <option value="classic">Classic</option>
+                <option value="dark">Dark</option>
+                <option value="light">Light</option>
+                <option value="rogue">Rogue Red</option>
+                <option value="dsc">Old D!scord Theme</option>
+                <option value="legacyv6">Legacy V6</option>
+                <option value="evil-teto">Teto PMO</option>
+                <option value="pearto">Pearto</option>
+                <option value="incog">Incognito</option>
+              </select>
+            </div>
+            <div class="setting-card">
+              <h1>Navigation Position</h1>
+              <p class="desc">Customize navbar positioning.</p>
+              <select id="navbar-select">
+                <option value="side" disabled selected>Side Navigation</option>
+                <option value="top">Top Navigation</option>
+              </select>
+            </div>
+            <div class="setting-card">
+              <h1>Search Function option</h1>
+              <p class="desc">Changes Search Function.</p>
+              <select id="pr0xySelect">
+                <option disabled value="">Select</option>
+                <option value="scram">Scr@mj3t</option>
+                <option value="vu">U|tr@v|0|3t</option>
+              </select>
+              <br />
+              <br />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div class="settings-content">
-      <div id="misc" class="setting-section">
-        <div class="settings-grid">
-          <div class="setting-card">
-            <h1>Debug Options</h1>
-            <p class="desc">Shows your FPS, Ping and CPU Usage on this website (is NOT logged)</p>
-            <button id="enableBtn">Enable Debug</button>
-            <button id="disableBtn" class="btn">Disable Debug</button>
-          </div>
-
-          <div class="setting-card">
-            <h1>Ads</h1>
-            <p class="desc">Enable or disable ads (on by default).</p>
-            <label class="switch">
-              <input type="checkbox" id="adsToggle">
-              <span class="slider"></span>
-            </label>
-          </div>
-
-          <div class="setting-card">
-            <h1>Music</h1>
-            <p class="desc">Choose a background music preset or upload your own.</p>
-            <select id="musicSelect">
-              <option value="none">None</option>
-              <option value="solidground">On Solid Ground? - Jefe (lay down remix)</option>
-              <option value="pearto">My Name is Teto Pear</option>
-              <option value="truelove">True Love - Kanye West ft. XXXTENTACION</option>
-              <option value="olympian">OLYMPIAN - Playboi Carti</option>
-              <option value="cancun">Cancun - Playbert Carti 👅</option>
-              <option value="cknose">C0CAINE NOSE - Playboi Carti</option>
-              <option value="eviljrdn">Evil Jordan - Playboi Carti</option>
-              <option value="fomdj">FOMDJ/GWAGON - Playboi Carti</option>
-              <option value="2024">2024 - Playboi Carti</option>
-              <option value="diffday">Different Day/Criteria - Playboi Carti</option>
-              <option value="backrooms">BACKR00MS - Playboi Carti and Travis Scott</option>
-              <option value="24songs">24Songs - Playboi Carti</option>
-              <option value="dgmn">DRVGS GOT ME NUMB - Playboi Carti</option>
-              <option value="custom">Custom Upload</option>
-            </select>
-            <input type="file" id="musicUpload" accept="audio/*" style="display: none;">
-            <button id="playBtn" class="btn">Play Music</button>
-            <button id="stopBtn" class="btn">Stop Music</button>
-            <input type="range" id="volumeControl" min="0" max="100" value="50">
-          </div>
-
-          <div class="setting-card">
-            <h1>Translator</h1>
-            <p class="desc">Translates the website to whatever you choose.</p>
-                <div style="background:transparent; border-radius: 4px; width:300px;" id="google_translate_element"></div>
-
-    <script type="text/javascript">
-      function googleTranslateElementInit() {
-        new google.translate.TranslateElement({ pageLanguage: "en", layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL }, "google_translate_element");
-      }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-          </div>
-
-          <div class="setting-card">
-            <h1>About</h1>
-            <p><strong>Version:</strong> 7.0.0</p>
-            <p class="rtabtxt">This is the 7th version of Jordan's Math Work, which is a complete rewrite of the
-              previous versions.</p>
-            <p class="rtabtxt">This version is built with a focus on performance, stability, fun, and user experience.
-            </p>
-            <p class="rtabtxt">If you have any issues or suggestions, please feel free to open an issue on the GitHub
-              repository.</p>
-            <p><strong>GitHub:</strong> <a href="//github.com/JustJxrdanWasDefinetlyTaken/jmw-node" target="_blank">Repository</a></p>
-          </div>
-        </div>
-      </div>
-      <div id="cloaking" class="setting-section active">
-        <div class="settings-grid">
-          <div class="setting-card">
-            <h1>Tab Cloaking</h1>
-            <p class="desc">Makes your tab appear to teachers that you're on an educational site.</p>
-            <select id="presetSelect">
-              <option value="">Select</option>
-              <option value="google">Google</option>
-              <option value="classroom">Google Classroom</option>
-              <option value="bing">Bing</option>
-              <option value="nearpod">Nearpod</option>
-              <option value="powerschool">PowerSchool</option>
-              <option value="chrome">Chrome</option>
-              <option value="edge">Microsoft Edge</option>
-              <option value="lausd">LAUSD Homepage</option>
-            </select>
-            <input type="text" id="customTitle" placeholder="Custom title">
-            <input type="text" id="customFavicon" placeholder="Favicon URL">
-            <button style="width:100%;" id="applyBtn">Apply</button>
-            <button style="width:100%;" id="resetBtn" class="btn">Reset</button>
-          </div>
-          <div class="setting-card">
-            <h1>Panic Key Settings</h1>
-            <p class="desc">Makes it easier and quicker to swap to an educational site.</p>
-            <p class="SBT">Choose a key to redirect yourself.</p>
-            <input type="text" id="hotkey-input" placeholder="Press any key..." maxlength="1">
-            <button style="width:100%;" id="change-hotkey-btn">Set Hotkey</button>
-
-            <p class="SBT">Redirect URL</p>
-            <input type="text" id="redirect-url-input" placeholder="Enter URL...">
-            <button style="width:100%;" id="change-URL-btn">Update URL</button>
-          </div>
-
-          <div class="setting-card">
-            <h1>About:Blank</h1>
-            <p class="desc">Makes your history disappear when clicked.</p>
-            <label class="switch">
-              <input type="checkbox" id="aboutBlankToggle">
-              <span class="slider"></span>
-            </label>
-            <br>
-            <br>
-          </div>
-          <div class="setting-card">
-            <h1>Open in BLOB</h1>
-            <p class="desc">Opens the site in a blob string</p>
-            <button onclick="launchBlob()" class="btn">Launch in BLOB</button>
-          </div>
-          <div class="setting-card">
-            <h1>Anti-Tab Close</h1>
-            <p class="desc">Makes your immune to being closed by teachers, useful for filters.</p>
-            <label class="switch">
-              <input type="checkbox" id="toggleLeavePopup">
-              <span class="slider"></span>
-            </label>
-            <br>
-            <br>
-          </div>
-        </div>
-      </div>
-      <div id="customization" class="setting-section">
-        <div class="settings-grid">
-          <div class="setting-card">
-            <h1>Themes</h1>
-            <p class="desc">Customize the page how you like it.</p>
-            <select id="themepicker">
-              <option value="select" disabled selected>Select Theme</option>
-              <option value="classic">Classic</option>
-              <option value="dark">Dark</option>
-              <option value="light">Light</option>
-              <option value="rogue">Rogue Red</option>
-              <option value="dsc">Old Discord Theme</option>
-              <option value="legacyv6">Legacy V6</option>
-              <option value="evil-teto">Teto PMO</option>
-              <option value="pearto">Pearto</option>
-              <option value="incog">Incognito</option>
-            </select>
-          </div>
-          <div class="setting-card">
-            <h1>Navigation Position</h1>
-            <p class="desc">Customize navbar positioning.</p>
-            <select id="navbar-select">
-              <option value="side">Side Navigation</option>
-              <option value="top" disabled selected>Top Navigation</option>
-            </select>
-          </div>
-                    <div class="setting-card">
-            <h1>Prσxy option</h1>
-            <p class="desc">Changes prσxy.</p>
-            <select id="pr0xySelect">
-              <option disabled value="">Select</option>
-              <option value="vu">UV</option>
-              <option value="scram">Scramjet</option>
-            </select>
-            <br>
-            <br>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </body>
 <script src="/assets/scripts/index.js"></script>
 <script src="/assets/scripts/themes.js"></script>

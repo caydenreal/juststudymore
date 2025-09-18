@@ -29,7 +29,7 @@ const renderSuggestions = (suggestions) => {
     suggestionsList.innerHTML = suggestions
         .map(
             (item, index) => `
-            <li class="p-2 cursor-pointer hover:bg-gray-700 text-gray-100" data-index="${index}">
+            <li class="p-2 cursor-pointer hover:bg-gray-700 text-gray-100" data-index="${index}" style="background: transparent;">
               ${item}
             </li>
           `

@@ -1,13 +1,13 @@
 let currentMode = "all";
 
 const htmlString = `                                <a class='link button' href='https://dsc.gg/gnetwork' target="_blank"><img height="175"
-                                                src="/assets/images/app/discord.jpg"
+                                                src="/assets/images/app/dsc.jpg"
                                                 onerror="this.src='/assets/img/no-icon-found.png'" class="image"
                                                 width="175"><span
                                                 style="padding:15px;margin:auto;display:block;width:170px;height:25px;line-height:25px;overflow:hidden;text-align:center;white-space:nowrap"
                                                 alt="">[Gᾰme Suggestions] .gg/SJA6Hx8gep</span></a>
                                 <a class='link button' href='https://dsc.gg/gnetwork' target="_blank"><img
-                                                height="175" src="/assets/images/app/discord.jpg"
+                                                height="175" src="/assets/images/app/dsc.jpg"
                                                 onerror="this.src='/assets/img/no-icon-found.png'" class="image"
                                                 width="175"><span
                                                 style="padding:15px;margin:auto;display:block;width:170px;height:25px;line-height:25px;overflow:hidden;text-align:center;white-space:nowrap"
@@ -1279,12 +1279,12 @@ const htmlString = `                                <a class='link button' href=
                                                 width="175"><span class="span"
                                                 style="padding:15px;margin:auto;display:block;width:170px;height:25px;line-height:25px;overflow:hidden;text-align:center;white-space:nowrap"
                                                 alt="1o1 basketball">Gift Wrapped</span></a>
-                                <a class='link button' href='/yalp/ela.html?book=geforce-now&type=local'><img
-                                                height="175" src="/assets/images/app/geforcenow.png"
+                                <a class='link button' href='/active/index.html?autofill=https://bit.ly/46qBHCy'><img
+                                                height="175" src="/assets/images/app/gfn.png"
                                                 onerror="this.src='/assets/img/no-icon-found.png'" class="image"
                                                 width="175"><span
                                                 style="padding:15px;margin:auto;display:block;width:170px;height:25px;line-height:25px;overflow:hidden;text-align:center;white-space:nowrap"
-                                                alt="Geforce Now" class="buggy">Geforce Now</span></a>
+                                                alt="gfn" class="buggy">Ge-Force Now</span></a>
                                 <a class='link button' href='/yalp/ela.html?book=genshin&type=local'><img
                                                 height="175" src="/assets/images/game/genshinimpact.jpg"
                                                 onerror="this.src='/assets/images/no-icon-found.png'" class="image"
@@ -2764,11 +2764,11 @@ const elements = doc.body.children;
 const box = document.querySelector(".box");
 [...elements].forEach(el => box.appendChild(el));
 
-function filterGames() {
+function filterActivites() {
     const input = document.getElementById("searchInput").value.toUpperCase();
-    const games = document.querySelectorAll(".box .link");
+    const activity = document.querySelectorAll(".box .link");
 
-    games.forEach(game => {
+    activity.forEach(game => {
         const isExclusive = game.dataset.tag === "exclusive";
         const matches = game.innerText.toUpperCase().includes(input);
         const show = (currentMode === "all" && matches) || (currentMode === "exclusive" && isExclusive && matches);
@@ -2776,8 +2776,8 @@ function filterGames() {
     });
 }
 
-function showGames() { currentMode = "all"; filterGames(); }
-function showExclusives() { currentMode = "exclusive"; filterGames(); }
+function showActivites() { currentMode = "all"; filterActivites(); }
+function showExclusives() { currentMode = "exclusive"; filterActivites(); }
 
-document.getElementById("searchInput").addEventListener("input", filterGames);
-filterGames();
+document.getElementById("searchInput").addEventListener("input", filterActivites);
+filterActivites();
