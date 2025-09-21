@@ -30,6 +30,7 @@
 # Deployment
 <a target="_blank" href="https://vercel.com/new/clone?repository-url=https://github.com/JustJxrdanWasDefinetlyTaken/jmw-deployable"><img alt="Deploy to Vercel" src="https://binbashbanana.github.io/deploy-buttons/buttons/remade/vercel.svg"></a>
 <a target="_blank" href="https://render.com/deploy?repo=https://github.com/JustJxrdanWasDefinetlyTaken/jmw-deployable"><img alt="Deploy to Render" src="https://binbashbanana.github.io/deploy-buttons/buttons/remade/render.svg"></a>
+- can also be deployed to any node.js service as long as you have this repository url: https://github.com/JustJxrdanWasDefinetlyTaken/jmw-node
 # Credits
 - <a href="//github.com/slqntdevss">Slqnt - themes function and ports</a>
 - <a href="//groq.com">Groq AI</a>
