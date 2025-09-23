@@ -13,6 +13,7 @@
 
         * {
             background-color: var(--bgcolor);
+            background:var(--bgcolor);
             color: var(--txtcolor);
             font-family: 'Inter', sans-serif;
         }
@@ -79,10 +80,11 @@
             border-radius: 50%;
             position: relative;
             margin-top: 5px;
+            background:transparent
         }
 
         .shortcut-name {
-            background: none;
+            background: transparent;
         }
 
         .shortcut .add-btn div {
@@ -441,7 +443,7 @@
     function getFavicon(siteUrl) {
         try {
             const urlObj = new URL(siteUrl);
-            return `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,URL&size=64&url=${encodeURIComponent(urlObj.origin)}`;
+            return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(urlObj.origin)}`;
         } catch {
             return "/assets/images/jmw.png";
         }

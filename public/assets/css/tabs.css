@@ -86,7 +86,7 @@ nav {
 
 [data-tab-id] button {
   margin-left: 6px;
-  margin-bottom:3px;
+  margin-bottom: 3px;
   background: none;
   border: none;
   color: var(--surface);
@@ -151,7 +151,7 @@ hr {
 }
 
 input {
-  width: calc(100vw - 223px);
+  width: calc(100vw - 300px);
   max-width: 1100px;
   padding: 10px;
   border: 1px solid var(--border);
@@ -160,7 +160,7 @@ input {
   margin: 0;
   display: inline-block;
   vertical-align: middle;
-  min-width: calc(100vw - 223px);
+  min-width: calc(100vw - 300px);
   outline: none;
 }
 
@@ -188,8 +188,55 @@ section {
 
 #customAlert[style*="display: block"]~.mainContainer {
   display: none;
+  background:black;
 }
 
 #customAlert {
-  background:black;
+  background: black;
+}
+
+.menu {
+  position: absolute;
+  min-width: 160px;
+  max-width: 90vw;
+  background: var(--surface);
+  color: var(--txtcolor);
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12);
+  padding: 6px 0;
+  transform-origin: top right;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.95);
+  transition: opacity 0.14s ease, transform 0.14s ease;
+  z-index: 1000;
+  overflow: hidden;
+  right: 0;
+}
+
+.menu.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+.menu a {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: var(--txtcolor);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.menu a:hover {
+  background: var(--surface-hover);
+}
+
+.menu .divider {
+  height: 1px;
+  background: var(--border);
+  margin: 4px 0;
+  border-radius: 1px;
 }

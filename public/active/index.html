@@ -4,11 +4,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JMW | Tabs</title>
+  <title>JMW | Educational Tabs</title>
+  <link rel="icon" href="/assets/images/jmw.png" />
+  <link rel="shortcut icon" href="/assets/images/jmw.png" />
   <script>
-    if (!localStorage.getItem('alertShown')) {
-      alert("This will show only once, this is very buggy (bare clients, if you're using scramjet it will bug out a lot), please be mindful and follow the steps so you dont get stuck.");
-      localStorage.setItem('alertShown', 'true');
+    let count = parseInt(localStorage.getItem('alertCount')) || 0;
+
+    if (count < 5) {
+      alert(
+        "This will only appear 5 times. As a reminder, this is very buggy (bare clients, Scr@mj3t and U|tr@v|ol3t will bug out a lot), please be mindful and follow the steps so you dont get stuck. If you pressed do not show again, clear your cookies in chrome://settings/content/all?searchSubpage=" +
+        window.location.origin);
+      localStorage.setItem('alertCount', count + 1);
     }
   </script>
   <script async defer src="./js/tabs.js" type="module"></script>
@@ -90,7 +96,7 @@
     style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:900px;height:300px;overflow-y:auto;background:black;color:var(--txtcolor);padding:30px;box-shadow:0 0 30px rgba(0,0,0,0.6);z-index:999999999999999999999999999;border-radius:16px;">
     <button id="alertClose"
       style="position:absolute;top:15px;right:15px;background:transparent;background-color:transparent;border:none;font-size:22px;cursor:pointer;">✕</button>
-    <div id="alertContent" style="overflow-y:auto;max-height:520px;">
+    <div id="alertContent" style="overflow-y:auto;max-height:520px;background:black;">
       <center>
         <br>
         <br>
@@ -103,7 +109,7 @@
         <p style="font-size:12px;margin-bottom:6px;">Easy Fix (USE METHOD 1 FIRST):</p>
         <ul style="font-size:12px;list-style:disc;padding-left:20px;text-align:left;">
           <li>Method 1 (no bare clients & uh oh & cannot get error screen): Click the button <button style="color:white"
-              onclick="registerSW()" style="font-size:13px;">Right Here</button> to register the SW</li>
+              onclick="registerSW()" style="font-size:13px;">Right Here</button> to register the SW, OR PRESS THE 3 DOTS IN THE TOP RIGHT CORNER, PRESS CLEAR SESSION AND FOLLOW THE ALERT INSTRUCTIONS.</li>
           <p>IF THAT DOESN'T WORK:</p>
           <li>Method 2: Clear your cookies, copy the url over <span onclick="copy();"
               style="text-decoration: underline;cursor:pointer;color:white;">HERE</span> or go to
@@ -111,7 +117,7 @@
             repeat the first method.</li>
           <p>IF THAT DOESN'T WORK:</p>
           <li>Method 3 (no bare clients & uh oh & cannot get error screen): press CTRL+SHIFT+R [Cache Refresh] or go
-            over <a href="/active/index.html?goback=true">Here</a> and do it.</li>
+            over <a href="/active/index.html?goback=true" target="_blank">Here</a> and do it.</li>
           <p>IF THAT DOESN'T WORK:</p>
           <li>Method 4 (no bare clients & uh oh & cannot get error screen): Go over <a
               href="/active/index.html?autofill=doyouseethisifyoudoitworks" target="blank" style="color:white;">Here
@@ -142,15 +148,23 @@
     <a href="#" id="fullscreen-icon" class="fc nav-btn" onclick="reload();"><i class="bx bx-refresh"></i></a>
     <input id="address" type="text" placeholder="Search privately.." class="search" autocomplete="off"
       onfocus="this.select()" />
+    <a href="#" id="home-icon" class="fc" onclick="window.location.href='/'"><i class="bx bx-home"></i></a>
     <a href="#" id="inspect-icon" class="fc" onclick="inspect();"><i class="bx bx-code-alt"></i></a>
     <a href="#" id="fullscreen-icon" class="fc" onclick="full();"><i class="bx bx-fullscreen"></i></a>
+    <a href="#" id="more-icon" class="fc" aria-haspopup="true" aria-expanded="false" aria-controls="more-menu" role="button" title="More"><i class="bx bx-dots-vertical"></i></a>
   </form>
+  <div id="more-menu" class="menu" role="menu">
+  <a href="#" onclick="copy();" role="menuitem">Clear Session</a>
+  <a href="#" onclick="registerSW();" role="menuitem">Register SW</a>
+  <div class="divider"></div>
+  <a href="#" role="menuitem">History [coming soon in the 7.1.5 update; the great game fix.]</a>
+</div>
   <section id="frames"></section>
   <script>
     function inspect() {
-      const idFromGlobal = (typeof currentTab !== 'undefined')
-        ? `frame-${currentTab}`
-        : (window.currentTab ? `frame-${window.currentTab}` : null);
+      const idFromGlobal = (typeof currentTab !== 'undefined') ?
+        `frame-${currentTab}` :
+        (window.currentTab ? `frame-${window.currentTab}` : null);
 
       let activeFrame = idFromGlobal ? document.getElementById(idFromGlobal) : null;
       if (!activeFrame) activeFrame = document.querySelector('iframe[id^="frame-"]');
@@ -221,10 +235,12 @@
     var iframe = document.querySelector("iframe");
     iframe.contentWindow.location.reload();
   }
+
   function historyBack() {
     var iframe = document.querySelector("iframe");
     iframe.contentWindow.history.back();
   }
+
   function historyForward() {
     var iframe = document.querySelector("iframe");
     iframe.contentWindow.history.forward();
@@ -237,7 +253,9 @@
     var closeBtn = document.getElementById("alertClose")
     var hideBtn = document.getElementById("alertHide")
     alertBox.style.display = "block"
-    closeBtn.addEventListener("click", function () { alertBox.style.display = "none" })
+    closeBtn.addEventListener("click", function () {
+      alertBox.style.display = "none"
+    })
     hideBtn.addEventListener("click", function () {
       localStorage.setItem("hideCustomAlert", "true")
       alertBox.style.display = "none"
@@ -380,5 +398,37 @@
     }, 5500);
   }
 </script>
+<script>
+const moreIcon = document.getElementById('more-icon');
+const menu = document.getElementById('more-menu');
+
+moreIcon.addEventListener('click', e => {
+  e.preventDefault();
+  if (!menu.classList.contains('open')) {
+    menu.classList.add('open');
+    const rect = moreIcon.getBoundingClientRect();
+    const menuWidth = menu.offsetWidth;
+    const menuHeight = menu.offsetHeight;
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    let left = rect.left + window.scrollX;
+    if (left + menuWidth > viewportWidth - 10) left = viewportWidth - menuWidth - 10;
+    let top = rect.bottom + window.scrollY;
+    if (top + menuHeight > viewportHeight - 10) top = rect.top + window.scrollY - menuHeight;
+    menu.style.top = top + 'px';
+    menu.style.left = left + 'px';
+  } else {
+    menu.classList.remove('open');
+  }
+});
+
+document.addEventListener('click', e => {
+  if (!menu.contains(e.target) && e.target !== moreIcon) menu.classList.remove('open');
+});
+</script>
+<script src="/assets/scripts/antict.js"></script>
+<script src="/assets/scripts/index.js"></script>
+<script src="/assets/scripts/settings.js"></script>
+<script src="/assets/scripts/debug.js"></script>
 
 </html>

@@ -6,7 +6,7 @@ const tabsDiv = document.getElementById("tabs");
 
 const getIcon = (url) =>
 	/^https?:\/\/[\w.-]+\.[a-z]{2,}/i.test(url)
-		? `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,URL&size=64&url=${url}`
+		? `https://www.google.com/s2/favicons?domain=${url}`
 		: "/assets/images/jmw.png";
 
 function createTab(id, title = "New Tab", url = "") {
