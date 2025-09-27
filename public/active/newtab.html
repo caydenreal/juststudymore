@@ -326,7 +326,7 @@
        
                setWisp(wisp)*/
 
-        setWisp("wss://anura.pro/");
+        setWisp((location.protocol === "https:" ? "wss://" : "ws://") + location.host + "/wisp/");
 
         setProxy(localStorage.getItem("pr0xy") || "scram")
         let search =

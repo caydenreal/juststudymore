@@ -92,11 +92,6 @@
 </head>
 
 <body theme="classic">
-      <div id="debugOverlay" style="display: none">
-      <div id="debugText">FPS: 0 | Ping: 0ms | CPU: 0%</div>
-      <canvas id="fpsGraph" width="200" height="40"></canvas>
-      <button id="minBtn">Minimize</button>
-    </div>
   <div id="customAlert"
     style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:900px;height:300px;overflow-y:auto;background:black;color:var(--txtcolor);padding:30px;box-shadow:0 0 30px rgba(0,0,0,0.6);z-index:999999999999999999999999999;border-radius:16px;">
     <button id="alertClose"
@@ -114,7 +109,8 @@
         <p style="font-size:12px;margin-bottom:6px;">Easy Fix (USE METHOD 1 FIRST):</p>
         <ul style="font-size:12px;list-style:disc;padding-left:20px;text-align:left;">
           <li>Method 1 (no bare clients & uh oh & cannot get error screen): Click the button <button style="color:white"
-              onclick="registerSW()" style="font-size:13px;">Right Here</button> to register the SW, OR PRESS THE 3 DOTS IN THE TOP RIGHT CORNER, PRESS CLEAR SESSION AND FOLLOW THE ALERT INSTRUCTIONS.</li>
+              onclick="registerSW()" style="font-size:13px;">Right Here</button> to register the SW, OR PRESS THE 3 DOTS
+            IN THE TOP RIGHT CORNER, PRESS CLEAR SESSION AND FOLLOW THE ALERT INSTRUCTIONS.</li>
           <p>IF THAT DOESN'T WORK:</p>
           <li>Method 2: Clear your cookies, copy the url over <span onclick="copy();"
               style="text-decoration: underline;cursor:pointer;color:white;">HERE</span> or go to
@@ -147,24 +143,30 @@
   </nav>
 
   <form id="form" align="center">
-    <a href="#" id="fullscreen-icon" class="fc nav-btn" onclick="historyBack();" title="goes back in iframe"><i class='bx bx-chevron-left'></i></a>
+    <a href="#" id="fullscreen-icon" class="fc nav-btn" onclick="historyBack();" title="goes back in iframe"><i
+        class='bx bx-chevron-left'></i></a>
     <a href="#" id="fullscreen-icon" class="fc nav-btn" onclick="historyForward();" title="goes forward in iframe"><i
         class='bx bx-chevron-right'></i></a>
-    <a href="#" id="fullscreen-icon" class="fc nav-btn" onclick="reload();" title="reloads iframe"><i class="bx bx-refresh"></i></a>
+    <a href="#" id="fullscreen-icon" class="fc nav-btn" onclick="reload();" title="reloads iframe"><i
+        class="bx bx-refresh"></i></a>
     <input id="address" type="text" placeholder="Search privately.." class="search" autocomplete="off"
       onfocus="this.select()" />
-    <a href="#" id="home-icon" class="fc" onclick="window.close();" title="closes the jmw tabs session"><i class="bx bx-home"></i></a>
-    <a href="#" id="inspect-icon" class="fc" onclick="inspect();" title="gives you website inspect element"><i class="bx bx-code-alt"></i></a>
-    <a href="#" id="fullscreen-icon" class="fc" onclick="full();" title="puts iframe in fullscreen"><i class="bx bx-fullscreen"></i></a>
-    <a href="#" id="more-icon" class="fc" aria-haspopup="true" aria-expanded="false" aria-controls="more-menu" role="button" title="More (dropdown)"><i class="bx bx-dots-vertical"></i></a>
+    <a href="#" id="home-icon" class="fc" onclick="window.close();" title="closes the jmw tabs session"><i
+        class="bx bx-home"></i></a>
+    <a href="#" id="inspect-icon" class="fc" onclick="inspect();" title="gives you website inspect element"><i
+        class="bx bx-code-alt"></i></a>
+    <a href="#" id="fullscreen-icon" class="fc" onclick="full();" title="puts iframe in fullscreen"><i
+        class="bx bx-fullscreen"></i></a>
+    <a href="#" id="more-icon" class="fc" aria-haspopup="true" aria-expanded="false" aria-controls="more-menu"
+      role="button" title="More (dropdown)"><i class="bx bx-dots-vertical"></i></a>
   </form>
   <div id="more-menu" class="menu" role="menu">
-  <a href="#" onclick="copy();" role="menuitem">Clear Session</a>
-  <a href="#" onclick="registerSW();" role="menuitem">Register SW</a>
-  <div class="divider"></div>
-  <a href="#" role="menuitem">History [soon]</a>
-  <a href="#" aria-label="New Tab" title="New Tab">New Tab</a>
-</div>
+    <a href="#" onclick="copy();" role="menuitem">Clear Session</a>
+    <a href="#" onclick="registerSW();" role="menuitem">Register SW</a>
+    <div class="divider"></div>
+    <a href="#" role="menuitem">History [soon]</a>
+    <a href="#" aria-label="New Tab" title="New Tab">New Tab</a>
+  </div>
   <section id="frames"></section>
   <script>
     function inspect() {
@@ -405,36 +407,204 @@
   }
 </script>
 <script>
-const moreIcon = document.getElementById('more-icon');
-const menu = document.getElementById('more-menu');
+  const moreIcon = document.getElementById('more-icon');
+  const menu = document.getElementById('more-menu');
 
-moreIcon.addEventListener('click', e => {
-  e.preventDefault();
-  if (!menu.classList.contains('open')) {
-    menu.classList.add('open');
-    const rect = moreIcon.getBoundingClientRect();
-    const menuWidth = menu.offsetWidth;
-    const menuHeight = menu.offsetHeight;
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    let left = rect.left + window.scrollX;
-    if (left + menuWidth > viewportWidth - 10) left = viewportWidth - menuWidth - 10;
-    let top = rect.bottom + window.scrollY;
-    if (top + menuHeight > viewportHeight - 10) top = rect.top + window.scrollY - menuHeight;
-    menu.style.top = top + 'px';
-    menu.style.left = left + 'px';
-  } else {
-    menu.classList.remove('open');
-  }
-});
+  moreIcon.addEventListener('click', e => {
+    e.preventDefault();
+    if (!menu.classList.contains('open')) {
+      menu.classList.add('open');
+      const rect = moreIcon.getBoundingClientRect();
+      const menuWidth = menu.offsetWidth;
+      const menuHeight = menu.offsetHeight;
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      let left = rect.left + window.scrollX;
+      if (left + menuWidth > viewportWidth - 10) left = viewportWidth - menuWidth - 10;
+      let top = rect.bottom + window.scrollY;
+      if (top + menuHeight > viewportHeight - 10) top = rect.top + window.scrollY - menuHeight;
+      menu.style.top = top + 'px';
+      menu.style.left = left + 'px';
+    } else {
+      menu.classList.remove('open');
+    }
+  });
 
-document.addEventListener('click', e => {
-  if (!menu.contains(e.target) && e.target !== moreIcon) menu.classList.remove('open');
-});
+  document.addEventListener('click', e => {
+    if (!menu.contains(e.target) && e.target !== moreIcon) menu.classList.remove('open');
+  });
 </script>
-<script src="/assets/scripts/antict.js"></script>
 <script src="/assets/scripts/index.js"></script>
-<script src="/assets/scripts/settings.js"></script>
-<script src="/assets/scripts/debug.js"></script>
+<script>
+  let isLeavePopupEnabled = JSON.parse(localStorage.getItem('leavePopupEnabled'));
+  if (isLeavePopupEnabled === null) isLeavePopupEnabled = false;
+
+  window.addEventListener('beforeunload', e => {
+    if (isLeavePopupEnabled) {
+      e.preventDefault();
+      e.returnValue = '';
+    }
+  });
+
+  const toggleLeavePopup = document.getElementById('toggleLeavePopup');
+  if (toggleLeavePopup) {
+    toggleLeavePopup.checked = isLeavePopupEnabled;
+    toggleLeavePopup.addEventListener('change', () => {
+      isLeavePopupEnabled = !isLeavePopupEnabled;
+      localStorage.setItem('leavePopupEnabled', JSON.stringify(isLeavePopupEnabled));
+      alert(isLeavePopupEnabled ? 'Leave Site Popup Enabled' : 'Leave Site Popup Disabled');
+    });
+  }
+</script>
+<script>
+  (() => {
+    function $(id) {
+      return document.getElementById(id);
+    }
+
+    const titleInput = $("customTitle");
+    const faviconInput = $("customFavicon");
+    const select = $("presetSelect");
+    const applyBtn = $("applyBtn");
+    const resetBtn = $("resetBtn");
+    const hotkeyInput = $("hotkey-input");
+    const redirectURLInput = $("redirect-url-input");
+    const changeHotkeyButton = $("change-hotkey-btn");
+    const changeURLButton = $("change-URL-btn");
+    const aboutBlankToggle = $("aboutBlankToggle");
+    const adsToggle = $("adsToggle");
+
+    function applySettings(title, favicon) {
+      if (title) {
+        document.title = title;
+        localStorage.setItem("TabCloak_Title", title);
+      }
+      if (favicon) {
+        document.querySelectorAll("link[rel~='icon'], link[rel='shortcut icon']").forEach(l => l.href = favicon);
+        localStorage.setItem("TabCloak_Favicon", favicon);
+      }
+    }
+
+    if (applyBtn && resetBtn && titleInput && faviconInput && select) {
+      applyBtn.addEventListener("click", () => applySettings(titleInput.value, faviconInput.value));
+      resetBtn.addEventListener("click", () => {
+        localStorage.removeItem("TabCloak_Title");
+        localStorage.removeItem("TabCloak_Favicon");
+        document.title = "Jordan's Math Work - V7";
+        const link = document.querySelector("link[rel~='icon']");
+        if (link) link.href = "/assets/images/jmw.png";
+        titleInput.value = "";
+        faviconInput.value = "";
+        select.value = "";
+      });
+    }
+
+    if (select && titleInput && faviconInput) {
+      select.addEventListener("change", () => {
+        const presets = {
+          google: {
+            title: "Google",
+            favicon: "/assets/images/cloaks/gsearch.ico"
+          },
+          classroom: {
+            title: "Home",
+            favicon: "https://ssl.gstatic.com/classroom/favicon.png"
+          },
+          bing: {
+            title: "Bing",
+            favicon: "https://bing.com/favicon.ico"
+          },
+          nearpod: {
+            title: "Nearpod",
+            favicon: "https://nearpod.com/favicon.ico"
+          },
+          powerschool: {
+            title: "PowerSchool Sign In",
+            favicon: "https://powerschool.com/favicon.ico"
+          },
+          edge: {
+            title: "New Tab",
+            favicon: "/assets/images/newtabedge.png"
+          },
+          chrome: {
+            title: "New Tab",
+            favicon: "/assets/images/newtab.png"
+          },
+          lausd: {
+            title: "Los Angeles Unified School District / Homepage",
+            favicon: "https://www.lausd.org/cms/lib/CA01000043/Centricity/template/globalassets/images/favicon/favicon1.ico"
+          }
+        };
+        const selected = presets[select.value];
+        if (selected) {
+          titleInput.value = selected.title;
+          faviconInput.value = selected.favicon;
+          applySettings(selected.title, selected.favicon);
+        }
+      });
+    }
+
+    let defaultHotkey = localStorage.getItem('hotkey') || '`';
+    let redirectURL = localStorage.getItem('redirectURL') || 'https://google.com';
+
+    if (hotkeyInput) {
+      hotkeyInput.value = defaultHotkey;
+      hotkeyInput.addEventListener('keydown', e => {
+        e.preventDefault();
+        if (e.key.length === 1 || e.key === 'Escape' || e.key.startsWith('F')) {
+          hotkeyInput.value = e.key;
+        }
+      });
+    }
+
+    if (redirectURLInput) redirectURLInput.value = redirectURL;
+
+    if (changeHotkeyButton && hotkeyInput) {
+      changeHotkeyButton.addEventListener('click', () => {
+        const newHotkey = hotkeyInput.value.trim();
+        if (newHotkey) {
+          defaultHotkey = newHotkey;
+          localStorage.setItem('hotkey', defaultHotkey);
+          alert('Hotkey changed successfully to: ' + defaultHotkey);
+        }
+      });
+    }
+
+    if (changeURLButton && redirectURLInput) {
+      changeURLButton.addEventListener('click', () => {
+        let newURL = redirectURLInput.value.trim();
+        if (newURL && !/^https?:\/\//i.test(newURL)) newURL = 'https://' + newURL;
+        if (newURL && !/\.[a-z]{2,}$/i.test(newURL)) newURL += '.com';
+        if (newURL) {
+          redirectURL = newURL;
+          localStorage.setItem('redirectURL', redirectURL);
+          alert('Redirect URL changed successfully to: ' + redirectURL);
+        }
+      });
+    }
+
+    window.addEventListener('keydown', e => {
+      if (e.key === defaultHotkey) location.replace(redirectURL);
+    });
+
+    const savedTitle = localStorage.getItem("TabCloak_Title");
+    const savedFavicon = localStorage.getItem("TabCloak_Favicon");
+    if (savedTitle) document.title = savedTitle;
+    if (savedFavicon) document.querySelectorAll("link[rel~='icon'], link[rel='shortcut icon']").forEach(l => l.href =
+      savedFavicon);
+
+    if (aboutBlankToggle) {
+      if (localStorage.getItem("aboutBlank") === null) localStorage.setItem("aboutBlank", "enabled");
+      aboutBlankToggle.checked = localStorage.getItem("aboutBlank") === "enabled";
+      aboutBlankToggle.addEventListener("change", () => {
+        const value = aboutBlankToggle.checked ? "enabled" : "disabled";
+        localStorage.setItem("aboutBlank", value);
+        location.reload();
+      });
+    }
+  })();
+</script>
+<script type='text/javascript' src='//pl27730558.revenuecpmgate.com/65/cd/69/65cd69e2fbaffb69bf390369618ab8aa.js'>
+</script>
 
 </html>
