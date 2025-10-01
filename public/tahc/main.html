@@ -1,61 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>JMW Chat</title>
-<link rel="stylesheet" href="/assets/css/chat.css" />
-<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JMW Chat</title>
+  <link rel="icon" href="/assets/images/jmw.png" />
+  <link rel="shortcut icon" href="/assets/images/jmw.png" />
+  <link rel="stylesheet" href="/assets/css/chat.css" />
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
+
 <body theme="classic">
-<header>
-  <button id="toggleUsers" class="btn ghost"><i style="font-size:25px;" class='bx bx-group'></i></button>
-  <h1>JMW Chat</h1>
-  <div class="spacer"></div>
-  <button id="startDmBtn" class="btn">Start DM</button>
-  <button id="createGroupBtn" class="btn">Create Group</button>
-  <button id="changeNameBtn" class="btn secondary">Change Username</button>
-</header>
-<div class="layout">
-  <aside id="usersPanel" class="users-panel">
-    <header>Users</header>
-    <div id="usersList" class="users-list"></div>
-  </aside>
-  <div class="main">
-    <aside class="sidebar">
-      <div class="side-section">
-        <div class="side-title">Public</div>
-        <button id="publicBtn" class="room-btn">General Chat</button>
-      </div>
-      <div class="side-section">
-        <div class="side-title">Private Direct Messages</div>
-        <div id="myChats" class="room-list"></div>
-      </div>
+  <header>
+    <button id="toggleUsers" class="btn ghost"><i style="font-size:25px;" class='bx bx-group'></i></button>
+    <h1>JMW Chat</h1>
+    <div class="spacer"></div>
+    <button id="startDmBtn" class="btn">Start DM</button>
+    <button id="createGroupBtn" class="btn">Create Group</button>
+    <button id="changeNameBtn" class="btn secondary">Change Username</button>
+    <button id="adminPanelBtn" class="btn" style="display:none;">Admin Panel</button>
+    <button id="adminKeyBtn" class="btn">Admin Key</button>
+  </header>
+  <div class="layout">
+    <aside id="usersPanel" class="users-panel">
+      <header>Users</header>
+      <div id="usersList" class="users-list"></div>
     </aside>
-    <section class="chat">
-      <div id="chatTitle" class="chat-header">
-        Public Chat
-        <button id="renameGroupBtn" class="btn secondary" style="display:none;">Rename Group</button>
-      </div>
-      <div id="messages" class="messages"></div>
-      <div class="composer">
-        <input id="messageInput" placeholder="Type a message…" />
-        <button id="sendBtn">Send</button>
-      </div>
-    </section>
-  </div>
-</div>
-<div id="modalOverlay" class="modal-overlay">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <header id="modalTitle">Modal</header>
-    <div id="modalBody" class="body"></div>
-    <div class="footer">
-      <button id="modalCancel" class="btn secondary" type="button">Cancel</button>
-      <button id="modalSave" class="btn" type="button">Save</button>
+    <div class="main">
+      <aside class="sidebar">
+        <div class="side-section">
+          <div class="side-title">Public</div>
+          <button id="publicBtn" class="room-btn">General Chat</button>
+        </div>
+        <div class="side-section">
+          <div class="side-title">Private Direct Messages</div>
+          <div id="myChats" class="room-list"></div>
+        </div>
+      </aside>
+      <section class="chat">
+        <div id="chatTitle" class="chat-header">
+          Public Chat
+          <button id="renameGroupBtn" class="btn secondary" style="display:none;">Rename Group</button>
+        </div>
+        <div id="messages" class="messages"></div>
+        <div class="composer">
+          <input id="messageInput" placeholder="Type a message…" />
+          <button id="sendBtn">Send</button>
+        </div>
+      </section>
     </div>
   </div>
-</div>
-<script type="module" src="/tahc/chat.js"></script>
+  <div id="modalOverlay" class="modal-overlay">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <header id="modalTitle">Modal</header>
+      <div id="modalBody" class="body"></div>
+      <div class="footer">
+        <button id="modalCancel" class="btn secondary" type="button">Cancel</button>
+        <button id="modalSave" class="btn" type="button">Save</button>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="/tahc/chat.js"></script>
 </body>
 <script src="/assets/scripts/index.js"></script>
+
 </html>

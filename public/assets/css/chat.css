@@ -115,7 +115,7 @@ header h1 {
 
 .users-list {
     overflow: auto;
-    padding: 0.5rem;
+    padding: 1rem;
     background: var(--bgcolor);
 }
 
@@ -346,4 +346,13 @@ header h1 {
     font-size: 0.8rem;
     color: var(--txtcolor);
     margin-top: 0.4rem;
+}
+
+#owner-badge {
+    background: gold;
+    color: black;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.75rem;
 }
