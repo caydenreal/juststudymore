@@ -1,3 +1,4 @@
+// claude helped me write this.
 import {
   initializeApp
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
@@ -201,18 +202,15 @@ async function checkAdminStatus() {
       isAdmin = true;
       const adminData = adminDoc.docs[0].data();
 
-      me.name = "JRDN [Owner]";
+      me.name = "♛ JRDN";
+      me.tag = "3164";
       me.isAdmin = true;
       me.isOwner = adminData.isOwner;
 
       sessionStorage.setItem("username", me.name);
+      sessionStorage.setItem("usertag", me.tag);
 
-      const nameEl = document.querySelector(".user-name");
-      if (nameEl) {
-        nameEl.innerHTML = me.isOwner
-          ? `<span class="owner-badge">${me.name}</span>#3164 (you)`
-          : `${me.name}#3164 (you)`;
-      }
+      updateOwnerBadge();  // <-- THIS LINE
 
       return true;
     }
@@ -220,6 +218,37 @@ async function checkAdminStatus() {
   } catch (error) {
     console.error("Admin check error:", error);
     return false;
+  }
+}
+
+function updateOwnerBadge() {
+  console.log("updateOwnerBadge called", { isOwner: me.isOwner, uid: me.uid });
+  
+  if (!me.isOwner) {
+    console.log("Not owner, skipping badge");
+    return;
+  }
+  
+  const myUserRow = document.querySelector(`.user-row[data-uid="${me.uid}"]`);
+  console.log("Found user row:", myUserRow);
+  
+  if (myUserRow) {
+    const nameEl = myUserRow.querySelector('.user-name');
+    console.log("Found name element:", nameEl);
+    
+    if (nameEl) {
+      nameEl.textContent = '';
+      
+      const badge = document.createElement('span');
+      badge.id = 'owner-badge';
+      badge.textContent = '♛ JRDN';
+      nameEl.appendChild(badge);
+      
+      nameEl.appendChild(document.createTextNode(' [Owner] #3164 (you)'));
+      console.log("Badge applied successfully");
+    }
+  } else {
+    console.log("User row not found yet - will be applied on next render");
   }
 }
 
@@ -434,21 +463,39 @@ function showUsernameModal(title) {
     input.id = 'usernameInput';
     input.className = 'input';
     input.placeholder = 'Your name';
-    input.maxLength = 25;
-    const hint = createTextElement('div', 'Maximum 25 characters');
+    input.maxLength = 14;
+    const hint = createTextElement('div', 'Maximum 14 characters. Lowercase letters, numbers, and basic punctuation only.');
     hint.style.cssText = 'font-size:12px;color:var(--text-muted);margin-top:5px;';
     container.appendChild(input);
     container.appendChild(hint);
+    
+    if (title === "Set Username") {
+      modalCancel.style.display = 'none';
+    }
+    
     return container;
   }, async () => {
-    const val = sanitizeInput(document.getElementById("usernameInput").value, 20);
+    const rawVal = document.getElementById("usernameInput").value;
+    
+    const allowedPattern = /^[a-z0-9\s._-]+$/;
+    
+    if (!allowedPattern.test(rawVal.trim())) {
+      alert('Username can only contain lowercase letters, numbers, spaces, and basic punctuation (. _ -)');
+      return;
+    }
+    
+    const val = sanitizeInput(rawVal, 20);
     if (!val) return;
+    
     me.name = val;
     me.tag = randomTag();
     me.avatar = avatarLetter(val);
     sessionStorage.setItem("username", me.name);
     sessionStorage.setItem("usertag", me.tag);
     await upsertUserProfile();
+
+    modalCancel.style.display = '';
+    
     closeModal();
     updateAdminUI();
     startListeners();
@@ -650,7 +697,36 @@ function openRoom(kind, id, title) {
 async function sendMessage() {
   const text = sanitizeInput(messageInput.value, 119);
   if (!text || !me.uid || !me.name) return;
+  
+  // Check if user is banned or muted
+  try {
+    const userQuery = query(collection(db, "users"), where("uid", "==", me.uid));
+    const userSnap = await getDocs(userQuery);
+    
+    if (!userSnap.empty) {
+      const userData = userSnap.docs[0].data();
+      
+      if (userData.banned) {
+        showStatusMessage("You are banned from this chat", "error");
+        messageInput.value = "";
+        if (window.updateCharCount) window.updateCharCount();
+        return;
+      }
+      
+      if (userData.mutedUntil && userData.mutedUntil > Date.now()) {
+        const remainingTime = Math.ceil((userData.mutedUntil - Date.now()) / 1000);
+        showStatusMessage(`You are muted for ${remainingTime} more seconds`, "error");
+        messageInput.value = "";
+        if (window.updateCharCount) window.updateCharCount();
+        return;
+      }
+    }
+  } catch (error) {
+    console.error("User status check error:", error);
+  }
+  
   if (!checkSpamProtection(text)) return;
+  
   try {
     const [c1, c2, c3] = roomPathForCurrent();
     const messageData = {
@@ -877,23 +953,33 @@ adminPanelBtn.onclick = async () => {
     const dmsSnap = await getDocs(collection(db, "dms"));
     const messagesCount = {};
     const onlineUsers = [];
+    const bannedUsers = [];
+    const mutedUsers = [];
+    
     for (const userDoc of usersSnap.docs) {
       const userData = userDoc.data();
       messagesCount[userData.uid] = 0;
       if (userData.status === "online") onlineUsers.push(userData);
+      if (userData.banned) bannedUsers.push(userData);
+      if (userData.mutedUntil && userData.mutedUntil > Date.now()) mutedUsers.push(userData);
     }
+    
     const publicMessages = await getDocs(collection(db, "rooms", "public", "messages"));
     publicMessages.forEach(msgDoc => {
       const msg = msgDoc.data();
       if (messagesCount[msg.uid] !== undefined) messagesCount[msg.uid]++;
     });
+    
     createSafeModal("Admin Panel", () => {
       const container = document.createElement('div');
       container.style.cssText = 'max-height:500px;overflow-y:auto;';
+      
       const title = createTextElement('h3', '👑 Administrator Dashboard');
       title.style.cssText = 'margin-bottom:1rem;color:var(--primary);font-size:1.3rem;';
+      
       const statsGrid = document.createElement('div');
       statsGrid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:1rem;';
+      
       const statCard = (label, value, color = 'var(--primary)') => {
         const card = document.createElement('div');
         card.style.cssText = `padding:0.8rem;background:var(--surface-hover);border-radius:8px;border-left:3px solid ${color};`;
@@ -905,50 +991,111 @@ adminPanelBtn.onclick = async () => {
         card.appendChild(labelEl);
         return card;
       };
+      
       statsGrid.appendChild(statCard('Total Users', usersSnap.size.toString(), '#4CAF50'));
       statsGrid.appendChild(statCard('Online Now', onlineUsers.length.toString(), '#2196F3'));
-      statsGrid.appendChild(statCard('Total Groups', groupsSnap.size.toString(), '#FF9800'));
-      statsGrid.appendChild(statCard('Direct Chats', dmsSnap.size.toString(), '#9C27B0'));
+      statsGrid.appendChild(statCard('Banned Users', bannedUsers.length.toString(), '#F44336'));
+      statsGrid.appendChild(statCard('Muted Users', mutedUsers.length.toString(), '#FF9800'));
+      
       const separator = document.createElement('hr');
       separator.style.cssText = 'border:none;border-top:1px solid var(--border);margin:1rem 0;';
+      
       const userList = document.createElement('div');
       userList.style.cssText = 'margin-top:1rem;';
-      const listTitle = createTextElement('h4', '📊 User Activity');
+      
+      const listTitle = createTextElement('h4', '📊 User Management');
       listTitle.style.cssText = 'margin-bottom:0.8rem;font-size:1.1rem;';
+      
       const sortedUsers = Array.from(usersSnap.docs).map(d => ({
         ...d.data(),
+        docId: d.id,
         msgCount: messagesCount[d.data().uid] || 0
       })).filter(u => u.name).sort((a, b) => b.msgCount - a.msgCount);
+      
       sortedUsers.forEach((u, idx) => {
         const userRow = document.createElement('div');
-        userRow.style.cssText = `padding:0.7rem;margin-bottom:0.5rem;background:var(--surface);border-radius:6px;display:flex;justify-content:space-between;align-items:center;border-left:3px solid ${u.status === 'online' ? '#4CAF50' : '#666'};transition:transform 0.2s;cursor:pointer;`;
-        userRow.onmouseenter = () => userRow.style.transform = 'translateX(5px)';
-        userRow.onmouseleave = () => userRow.style.transform = 'translateX(0)';
+        const isMuted = u.mutedUntil && u.mutedUntil > Date.now();
+        userRow.style.cssText = `padding:0.7rem;margin-bottom:0.5rem;background:var(--surface);border-radius:6px;display:flex;justify-content:space-between;align-items:center;border-left:3px solid ${u.banned ? '#F44336' : isMuted ? '#FF9800' : u.status === 'online' ? '#4CAF50' : '#666'};`;
+        
         const leftSection = document.createElement('div');
-        leftSection.style.cssText = 'display:flex;align-items:center;gap:0.5rem;';
+        leftSection.style.cssText = 'display:flex;align-items:center;gap:0.5rem;flex:1;';
+        
         const rank = createTextElement('div', `#${idx + 1}`);
         rank.style.cssText = 'font-weight:bold;color:var(--text-muted);min-width:30px;';
+        
         const userInfo = createTextElement('div', `${safeUsername(u.name, u.tag)}`);
-        userInfo.style.cssText = 'font-weight:500;';
-        const statusBadge = createTextElement('span', u.status === 'online' ? '🟢' : '⚫');
+        userInfo.style.cssText = `font-weight:500;${u.banned ? 'text-decoration:line-through;opacity:0.6;' : ''}`;
+        
+        const statusBadge = createTextElement('span', u.banned ? '🚫' : isMuted ? '🔇' : u.status === 'online' ? '🟢' : '⚫');
         statusBadge.style.cssText = 'font-size:0.7rem;';
+        
         leftSection.appendChild(rank);
         leftSection.appendChild(statusBadge);
         leftSection.appendChild(userInfo);
-        const rightSection = document.createElement('div');
-        rightSection.style.cssText = 'text-align:right;';
+        
+        const middleSection = document.createElement('div');
+        middleSection.style.cssText = 'text-align:right;margin-right:1rem;';
         const msgCount = createTextElement('div', `${u.msgCount}`);
         msgCount.style.cssText = 'font-size:1.2rem;font-weight:bold;color:var(--primary);';
         const msgLabel = createTextElement('div', 'messages');
         msgLabel.style.cssText = 'font-size:0.75rem;color:var(--text-muted);';
-        rightSection.appendChild(msgCount);
-        rightSection.appendChild(msgLabel);
+        middleSection.appendChild(msgCount);
+        middleSection.appendChild(msgLabel);
+        
+        const actionSection = document.createElement('div');
+        actionSection.style.cssText = 'display:flex;gap:0.5rem;';
+        
+        if (u.uid !== me.uid) {
+          const banBtn = document.createElement('button');
+          banBtn.textContent = u.banned ? 'Unban' : 'Ban';
+          banBtn.style.cssText = `padding:0.3rem 0.6rem;border:none;border-radius:4px;font-size:0.8rem;cursor:pointer;background:${u.banned ? '#4CAF50' : '#F44336'};color:white;font-weight:500;`;
+          banBtn.onclick = async (e) => {
+            e.stopPropagation();
+            try {
+              const newStatus = !u.banned;
+              await updateDoc(doc(db, "users", u.docId), {
+                banned: newStatus,
+                bannedAt: newStatus ? Date.now() : null
+              });
+              showStatusMessage(`${u.name} has been ${newStatus ? 'banned' : 'unbanned'}`, "success");
+              adminPanelBtn.click();
+            } catch (error) {
+              console.error("Ban error:", error);
+              showStatusMessage("Failed to update ban status", "error");
+            }
+          };
+          
+          const muteBtn = document.createElement('button');
+          muteBtn.textContent = isMuted ? 'Unmute' : 'Mute';
+          muteBtn.style.cssText = `padding:0.3rem 0.6rem;border:none;border-radius:4px;font-size:0.8rem;cursor:pointer;background:${isMuted ? '#4CAF50' : '#FF9800'};color:white;font-weight:500;`;
+          muteBtn.onclick = async (e) => {
+            e.stopPropagation();
+            try {
+              const newMuteTime = isMuted ? 0 : Date.now() + 600000; // 10 minutes
+              await updateDoc(doc(db, "users", u.docId), {
+                mutedUntil: newMuteTime
+              });
+              showStatusMessage(`${u.name} has been ${isMuted ? 'unmuted' : 'muted for 10 minutes'}`, "success");
+              adminPanelBtn.click();
+            } catch (error) {
+              console.error("Mute error:", error);
+              showStatusMessage("Failed to update mute status", "error");
+            }
+          };
+          
+          actionSection.appendChild(muteBtn);
+          actionSection.appendChild(banBtn);
+        }
+        
         userRow.appendChild(leftSection);
-        userRow.appendChild(rightSection);
+        userRow.appendChild(middleSection);
+        userRow.appendChild(actionSection);
         userList.appendChild(userRow);
       });
-      const footer = createTextElement('div', '💡 Tip: Click users to view their profile');
+      
+      const footer = createTextElement('div', '💡 Tip: Ban removes access, Mute prevents messaging for 10 minutes');
       footer.style.cssText = 'margin-top:1rem;padding:0.5rem;background:var(--surface-hover);border-radius:4px;font-size:0.85rem;color:var(--text-muted);text-align:center;';
+      
       container.appendChild(title);
       container.appendChild(statsGrid);
       container.appendChild(separator);
@@ -1020,12 +1167,19 @@ adminKeyBtn.onclick = async () => {
         me.isOwner = isOwnerKey;
 
         if (isOwnerKey) {
-          me.name = "JRDN [Owner]";
+          me.name = "♛ JRDN 〈Owner〉";
           sessionStorage.setItem("username", me.name);
 
           const nameEl = document.querySelector(".user-name");
           if (nameEl) {
-            nameEl.innerHTML = `<span id="owner-badge">${me.name}</span>#3164 (you)`;
+            nameEl.textContent = '';
+
+            const badge = document.createElement('span');
+            badge.id = 'owner-badge';
+            badge.textContent = '♛ JRDN';
+            nameEl.appendChild(badge);
+
+            nameEl.appendChild(document.createTextNode(' [Owner] #6741 (you)'));
           }
         }
 
