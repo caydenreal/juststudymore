@@ -18,7 +18,7 @@ jobs:
         run: |
           REPO="${{ github.repository }}"
           echo "Finding latest successful run for $REPO..."
-          latest_run_id=$(gh run list --repo "$REPO" --limit 1 --json databaseId --jq '.[0].databaseId')
+          latest_run_id=$(gh run list --repo "$REPO" --status success --limit 1 --json databaseId --jq '.[0].databaseId')
           if [ -z "$latest_run_id" ]; then
             echo "❌ No workflow runs found."
             exit 1
@@ -31,7 +31,7 @@ jobs:
       - name: Download scramjet artifact
         run: |
           echo "Downloading artifact 'scramjet' from run ID: ${{ steps.latest_run.outputs.run_id }}"
-          gh run download ${{ steps.latest_run.outputs.run_id }} --name scramjet --repo ${{ github.repository }} --dir ./temp_artifact
+          gh run download ${{ steps.latest_run.outputs.run_id }} --name scramjet --repo "mercuryworkshop/scramjet" --dir ./temp_artifact
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
