@@ -36,14 +36,14 @@ jobs:
 
       - name: Prepare target directory
         run: |
-          mkdir -p /public/scram
-          rm -rf /public/scram/*
+          mkdir -p ./public/scram
+          rm -rf ./public/scram/*
 
       - name: Unzip artifact to /public/scram
         run: |
-          unzip -o ./temp_artifact/scramjet.zip -d /public/scram
+          unzip -o ./temp_artifact/scramjet.zip -d ./public/scram
 
       - name: Verify extraction
         run: |
           echo "Contents of /public/scram:"
-          ls -al /public/scram
+          ls -al ./public/scram
