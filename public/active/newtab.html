@@ -11,7 +11,7 @@
         @import url('/assets/css/themes.css');
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
 
-        * {
+        body {
             background-color: var(--bgcolor);
             background: var(--bgcolor);
             color: var(--txtcolor);
@@ -283,16 +283,25 @@
         #customAlert {
             background: black;
         }
+
+        #shortcut-name,
+        #shortcut-url {
+            background: transparent;
+        }
     </style>
 </head>
 
 <body theme="classic">
-          <script type="text/javascript">
-      function googleTranslateElementInit() {
-        new google.translate.TranslateElement({ pageLanguage: "en", layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL }, "google_translate_element");
-      }
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: "en",
+                layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+            }, "google_translate_element");
+        }
     </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+    </script>
     <br>
     <div align="center">
         <main id="main">
@@ -368,6 +377,94 @@
 </script>
 <script src="/assets/scripts/index.js"></script>
 <script>
+    const style = document.createElement('style');
+    style.textContent = `
+        .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        backdrop-filter: blur(4px);
+    }
+    .popup-modal {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 24px;
+        min-width: 400px;
+        max-width: 500px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+    .popup-modal h3 {
+        margin: 0 0 20px 0;
+        color: white;
+        font-size: 20px;
+        font-weight: 600;
+    }
+    .form-group {
+        margin-bottom: 16px;
+    }
+    .form-group label {
+        display: block;
+        color: #ccc;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+    .form-group input {
+        width: 100%;
+        padding: 10px 12px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        color: white;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+    .form-group input:focus {
+        outline: none;
+        border-color: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.05);
+    }
+    .popup-buttons {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+        margin-top: 24px;
+    }
+    .popup-buttons button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .popup-cancel {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+    .popup-cancel:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+    .popup-submit {
+        background: #0066cc;
+        color: white;
+    }
+    .popup-submit:hover {
+        background: #0052a3;
+    }
+
+`;
+    document.head.appendChild(style);
+
     const defaultPresets = [{
             name: "Cloud Gaming",
             url: "https://xbox.com/en-us/play",
@@ -428,17 +525,17 @@
             return el;
         }
         el.innerHTML = `
-    ${isCustom ? `
-      <div class="menu-container">
-        <button class="menu-btn" style="color:white;background:none;" onclick="toggleDropdown(event)">⋮</button>
-        <div class="dropdown">
-          <button onclick="editShortcut(this)">Edit</button>
-          <button onclick="removeShortcut(this)">Remove</button>
-        </div>
-      </div>` : ''}
-    <img src="${iconUrl}" alt="${name}" />
-    <div class="shortcut-name">${name}</div>
-  `;
+${isCustom ? `
+  <div class="menu-container">
+    <button class="menu-btn" style="color:white;background:none;" onclick="toggleDropdown(event)">⋮</button>
+    <div class="dropdown">
+      <button onclick="editShortcut(this)">Edit</button>
+      <button onclick="removeShortcut(this)">Remove</button>
+    </div>
+  </div>` : ''}
+<img src="${iconUrl}" alt="${name}" />
+<div class="shortcut-name">${name}</div>
+`;
         el.onclick = (e) => {
             if (!e.target.closest(".menu-btn") && !e.target.closest(".dropdown")) {
                 autofill(url);
@@ -482,19 +579,78 @@
         customShortcuts.forEach(c => document.getElementById("custom").appendChild(createShortcutEl(c, true)));
     }
 
-    function addShortcut() {
-        const name = prompt("Shortcut name:");
-        if (!name) return;
-        const siteURL = prompt("Site URL (with https://):") || `https://duckduckgo.com/?q=${encodeURIComponent(name)}`;
-        const icon = getFavicon(siteURL);
-        const shortcut = {
-            name,
-            url: siteURL,
-            icon
+    function showPopup(title, fields, onSubmit) {
+        const overlay = document.createElement("div");
+        overlay.className = "popup-overlay";
+        overlay.innerHTML = `
+        <div class="popup-modal">
+            <h3>${title}</h3>
+            <form class="popup-form">
+                ${fields.map(f => `
+                    <div class="form-group">
+                        <label>${f.label}</label>
+                        <input type="text" id="${f.id}" value="${f.value || ''}" 
+                               placeholder="${f.placeholder || ''}" ${f.required ? 'required' : ''} />
+                    </div>
+                `).join('')}
+                <div class="popup-buttons">
+                    <button type="button" class="popup-cancel">Cancel</button>
+                    <button type="submit" class="popup-submit">OK</button>
+                </div>
+            </form>
+        </div>
+    `;
+        document.body.appendChild(overlay);
+
+        const form = overlay.querySelector(".popup-form");
+        const cancelBtn = overlay.querySelector(".popup-cancel");
+
+        overlay.onclick = (e) => {
+            if (e.target === overlay) {
+                document.body.removeChild(overlay);
+            }
         };
-        customShortcuts.push(shortcut);
-        saveShortcuts();
-        render();
+
+        cancelBtn.onclick = () => document.body.removeChild(overlay);
+
+        form.onsubmit = (e) => {
+            e.preventDefault();
+            const values = {};
+            fields.forEach(f => {
+                values[f.id] = document.getElementById(f.id).value.trim();
+            });
+            if (fields.some(f => f.required && !values[f.id])) return;
+            document.body.removeChild(overlay);
+            onSubmit(values);
+        };
+
+        setTimeout(() => overlay.querySelector("input").focus(), 100);
+    }
+
+    function addShortcut() {
+        showPopup("Add Shortcut", [{
+                label: "Shortcut name:",
+                id: "shortcut-name",
+                required: true
+            },
+            {
+                label: "Site URL (with https://):",
+                id: "shortcut-url",
+                placeholder: "https://example.com"
+            }
+        ], (values) => {
+            const name = values["shortcut-name"];
+            const siteURL = values["shortcut-url"] || `https://duckduckgo.com/?q=${encodeURIComponent(name)}`;
+            const icon = getFavicon(siteURL);
+            const shortcut = {
+                name,
+                url: siteURL,
+                icon
+            };
+            customShortcuts.push(shortcut);
+            saveShortcuts();
+            render();
+        });
     }
 
     function removeShortcut(btn) {
@@ -509,21 +665,34 @@
         const shortcutEl = btn.closest(".shortcut");
         const name = shortcutEl.dataset.name;
         const shortcut = customShortcuts.find(s => s.name === name);
-        const newName = prompt("New shortcut name:", shortcut.name);
-        if (!newName) return;
-        const newUrl = prompt("New URL (with https://):", shortcut.url) ||
-            `https://duckduckgo.com/?q=${encodeURIComponent(newName)}`;
-        shortcut.name = newName;
-        shortcut.url = newUrl;
-        shortcut.icon = getFavicon(newUrl);
-        saveShortcuts();
-        render();
+
+        showPopup("Edit Shortcut", [{
+                label: "Shortcut name:",
+                id: "edit-name",
+                value: shortcut.name,
+                required: true
+            },
+            {
+                label: "Site URL (with https://):",
+                id: "edit-url",
+                value: shortcut.url,
+                required: true
+            }
+        ], (values) => {
+            const newName = values["edit-name"];
+            const newUrl = values["edit-url"] || `https://duckduckgo.com/?q=${encodeURIComponent(newName)}`;
+            shortcut.name = newName;
+            shortcut.url = newUrl;
+            shortcut.icon = getFavicon(newUrl);
+            saveShortcuts();
+            render();
+        });
     }
 
     let presets = [],
         customShortcuts = [];
     loadShortcuts();
-    render();
+    render()
 </script>
 <script type="module">
     import { makeURL, getProxied } from "/cat.mjs"

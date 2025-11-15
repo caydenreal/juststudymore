@@ -151,7 +151,7 @@ hr {
 }
 
 #form input {
-  width: calc(100vw - 330px);
+  width: calc(100vw - 310px);
   max-width: 1200px;
   padding: 10px;
   border: 1px solid var(--border);
@@ -160,7 +160,7 @@ hr {
   margin: 0;
   display: inline-block;
   vertical-align: middle;
-  min-width: calc(100vw - 330px);
+  min-width: calc(100vw - 310px);
   outline: none;
 }
 
