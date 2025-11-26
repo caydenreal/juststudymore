@@ -28,8 +28,7 @@ nav {
   overflow-x: auto;
   gap: 4px;
   scrollbar-width: thin;
-  scrollbar-color: var(--txtcolor) transparent;
-
+  scrollbar-color: var(--txtcolor);
 }
 
 #tabs::-webkit-scrollbar {
@@ -50,17 +49,17 @@ nav {
 }
 
 [data-tab-id] {
+  background: var(--surface);
   display: flex;
   align-items: center;
   padding: 10px;
-  border: 1px solid var(--border);
   background: none;
   cursor: pointer;
   user-select: none;
   min-width: 120px;
   max-width: 250px;
   white-space: nowrap;
-  border-radius: 9px;
+  border-radius: 10px 10px 0px 0px;
 }
 
 [data-tab-id].active {
@@ -104,7 +103,7 @@ nav {
   padding: 6px 10px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 3px;
+  border-radius: 10px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -114,11 +113,11 @@ nav {
   top: 10px;
   right: 10px;
   position: absolute;
+  transition:0.5s;
 }
 
 #new-tab-btn:hover {
-  background: #eee;
-  border-color: #999;
+  background:var(--surface-hover);
 }
 
 .draggable-tab.dragging {
@@ -151,7 +150,7 @@ hr {
 }
 
 #form input {
-  width: calc(100vw - 310px);
+  width: calc(100vw - 330px);
   max-width: 1200px;
   padding: 10px;
   border: 1px solid var(--border);
@@ -160,9 +159,9 @@ hr {
   margin: 0;
   display: inline-block;
   vertical-align: middle;
-  min-width: calc(100vw - 310px);
+  min-width: calc(100vw - 330px);
   outline: none;
-  background: var(--bgcolor);
+  background-color: rgba(255, 255, 255, 0.1);
   color:var(--txtcolor);
   font-family: 'Inter', sans-serif;
 }
@@ -172,9 +171,11 @@ hr {
   background: var(--surface);
   color: var(--txtcolor);
   padding: 8px;
-  border-radius: 5px;
+  border-radius: 10px;
   display: inline-block;
   vertical-align: middle;
+  width:20px;
+  height:20px;
 }
 
 section {

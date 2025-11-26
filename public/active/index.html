@@ -7,16 +7,6 @@
   <title>JMW | Educational Tabs</title>
   <link rel="icon" href="/assets/images/jmw.png" />
   <link rel="shortcut icon" href="/assets/images/jmw.png" />
-  <script>
-    let count = parseInt(localStorage.getItem('alertCount')) || 0;
-
-    if (count < 1) {
-      alert(
-        "As a reminder, this is very buggy (bare clients, Scr@mj3t and U|tr@v|ol3t will bug out a lot), please be mindful and follow the steps so you dont get stuck. If you pressed do not show again, clear your cookies in chrome://settings/content/all?searchSubpage=" +
-        window.location.origin);
-      localStorage.setItem('alertCount', count + 1);
-    }
-  </script>
   <script async defer src="./js/tabs.js" type="module"></script>
   <link href="/assets/css/tabs.css" rel="stylesheet" />
   <script type="module" async defer>
@@ -117,11 +107,11 @@
   <form id="form" align="center">
     <a href="#" id="fullscreen-icon" class="fc nav-btn" onclick="historyBack();" title="goes back in iframe"><i
         class='bx bx-chevron-left'></i></a>
-    <a href="#" id="fullscreen-icon" class="fc nav-btn" onclick="historyForward();" title="goes forward in iframe"><i
-        class='bx bx-chevron-right'></i></a>
     <a href="#" id="fullscreen-icon" class="fc nav-btn" onclick="reload();" title="reloads iframe"><i
         class="bx bx-refresh"></i></a>
-    <input id="address" type="text" placeholder="Search privately.." class="search" autocomplete="off"
+    <a href="#" id="fullscreen-icon" class="fc nav-btn" onclick="historyForward();" title="goes forward in iframe"><i
+        class='bx bx-chevron-right'></i></a>
+    <input id="address" type="text" placeholder="search the internet" class="search" autocomplete="off"
       onfocus="this.select()" />
     <a href="#" id="home-icon" class="fc" onclick="window.close();" title="closes the jmw tabs session"><i
         class="bx bx-home"></i></a>
@@ -135,10 +125,8 @@
   <div id="more-menu" class="menu" role="menu">
     <a href="#" onclick="copy();" role="menuitem">Clear Session</a>
     <a href="#" onclick="registerSW();" role="menuitem">Register SW</a>
-    <a href="#" role="menuitem">??? [soon!]</a>
     <div class="divider"></div>
     <a href="#" id="toggle-history" role="menuitem">History</a>
-    <a href="#" role="menuitem">Bookmarks [Coming Soon]</a>
     <a href="#" onclick="disableAdverts();" role="menuitem">Disable Ads</a>
   </div>
   <section id="frames"></section>
