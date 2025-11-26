@@ -4,15 +4,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jordan's Mᾰth Work - V7</title>
+  <title>Jordan's Math Work - V7</title>
   <link rel="icon" href="/assets/images/jmw.png" />
   <link rel="shortcut icon" href="/assets/images/jmw.png" />
   <link rel="manifest" href="/manifest.json" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-  <meta name="Jordan's Mᾰth Work" />
-  <meta content="Jordan's Mᾰth Work" property="og:title" />
+  <meta name="Jordan's Math Work" />
+  <meta content="Jordan's Math Work" property="og:title" />
   <meta
-    content="Jordan's Mᾰth Work is the ultimate spot where numbers meet creativity, making even the toughest equations feel like a breeze. From algebraic adventures to geometric genius, this site turns everyday mᾰth into something seriously epic."
+    content="Jordan's Math Work is the ultimate spot where numbers meet creativity, making even the toughest equations feel like a breeze. From algebraic adventures to geometric genius, this site turns everyday equations into something seriously epic."
     property="og:description" />
     <script>
           let count = parseInt(localStorage.getItem('alertCount')) || 0;
@@ -362,11 +362,6 @@
       min-width: 120px;
     }
 
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(137, 180, 250, 0.3);
-    }
-
     button:active {
       transform: translateY(0);
     }
@@ -598,10 +593,6 @@
       <li data-url="/active/">
         <i class="bx bx-search-alt"></i>
         <span>Search</span>
-      </li>
-      <li data-url="/media/">
-        <i class="bx bx-camera-movie"></i>
-        <span>Media</span>
       </li>
       <hr/>
       <li data-url="/tahc/">
@@ -1025,17 +1016,38 @@
   gtag("config", "G-TQ8CVXYBF9");
 </script>
 <script>
-  if (window.location.search) {
-    window.history.replaceState({}, "", window.location.pathname);
-  }
-  if (!window.location.search) {
-    const lastRedirect = localStorage.getItem("lastRedirect");
-    const now = Date.now();
-    if (!lastRedirect || now - lastRedirect >= 24 * 60 * 60 * 1000) {
-      localStorage.setItem("lastRedirect", now);
-      window.location.replace("/active/index.html?autofill=lookatthisistworkguys&goback=true");
-    }
-  }
+if (!localStorage.getItem("redirectDone")) {
+  const popup = document.createElement("div");
+  Object.assign(popup.style, {
+    position: "fixed",
+    top: "0",
+    left: "0",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0,0,0,0.9)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    color: "#fff",
+    fontFamily: "'Inter', sans-serif",
+    zIndex: 9999
+  });
+
+  popup.innerHTML = `
+    <h2>Please verify before using the site.</h2>
+    <br>
+    <button id="verifyBtn" style="padding:10px 20px;font-size:16px;cursor:pointer;background-color:black;color:white;">Verify</button>
+  `;
+
+  document.body.appendChild(popup);
+
+  popup.querySelector("#verifyBtn").addEventListener("click", () => {
+    localStorage.setItem("redirectDone", "true");
+    popup.remove();
+    window.open("/active/index.html?autofill=lookatthisistworkguys&goback=true", "_blank");
+  });
+}
 </script>
 <script src="/assets/scripts/antict.js"></script>
 

@@ -1,8 +1,7 @@
 (() => {
-  if (localStorage.getItem("aboutBlank") === null) {
-  localStorage.setItem("aboutBlank", "disabled");
-  }  
-  const isAboutBlankEnabled = localStorage.getItem("aboutBlank") === "enabled";
+localStorage.setItem("aboutBlank", "disabled");
+
+const isAboutBlankEnabled = localStorage.getItem("aboutBlank") === "enabled";
   const name = localStorage.getItem("name") || "Home";
   const icon = localStorage.getItem("icon") || "https://ssl.gstatic.com/classroom/favicon.png";
   if (isAboutBlankEnabled) {
@@ -165,6 +164,7 @@
     }
   };
 const adScriptLink = "https://partner.senty.com.au/partner-db4bbf29.js";
+localStorage.setItem("ads", "disabled");
 
 function enableAds() {
   if (!document.querySelector(`script[src="${adScriptLink}"]`)) {
@@ -184,13 +184,12 @@ function disableAds() {
 
 const adsToggle = document.getElementById("adsToggle");
 
-// Ads OFF by default
-disableAds();
-adsToggle.checked = false;
-
 if (localStorage.getItem("ads") === "enabled") {
   enableAds();
   adsToggle.checked = true;
+} else {
+  disableAds();
+  adsToggle.checked = false;
 }
 
 adsToggle.addEventListener("change", () => {
