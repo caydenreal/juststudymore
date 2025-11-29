@@ -127,7 +127,6 @@
     <a href="#" onclick="registerSW();" role="menuitem">Register SW</a>
     <div class="divider"></div>
     <a href="#" id="toggle-history" role="menuitem">History</a>
-    <a href="#" onclick="disableAdverts();" role="menuitem">Disable Ads</a>
   </div>
   <section id="frames"></section>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-TQ8CVXYBF9"></script>
@@ -560,31 +559,4 @@ document.addEventListener('click', e => {
   alert("If the search error says 'there are no bare clients' then click the URL in our custom tabs and press enter! If you're on g^mes, some of them may take a long time to load due to their LARGE amount of assets! Be VERY patient.");
 }
 </script>
-<script>
-  function disableAdverts() {
-    if (localStorage.getItem('adsDisabled') === 'true') {
-      localStorage.setItem('adsDisabled', 'false');
-      alert('Ads Enabled');
-    } else {
-      localStorage.setItem('adsDisabled', 'true');
-      alert('Ads Disabled');
-    }
-    location.reload();
-  }
-  if (localStorage.getItem('adsDisabled') === 'true') {
-    const adScript = document.querySelector("script[src*='revenuecpmgate.com']");
-    if (adScript) {
-      adScript.remove();
-    }
-  }
-  const adToggle = document.querySelector("a[onclick='disableAdverts();']");
-  if (adToggle) {
-    if (localStorage.getItem('adsDisabled') === 'true') {
-      adToggle.textContent = 'Enable Ads';
-    } else {
-      adToggle.textContent = 'Disable Ads';
-    }
-  }
-</script>
-
 </html>
