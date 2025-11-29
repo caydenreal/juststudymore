@@ -48,6 +48,6 @@
 - Thatguy_toji - the founder
 - slayer - CSS restyling
 ### contributers:
-<a target="_blank" href="https://github.com/GalacticNetwork/jordansmathwork-v7/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=GalacticNetwork/jordansmathwork-v7" />
+<a target="_blank" href="https://github.com/JustJxrdanWasDefinetlyTaken/jmw-node/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=JustJxrdanWasDefinetlyTaken/jmw-node" />
 </a>
