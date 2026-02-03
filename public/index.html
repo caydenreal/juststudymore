@@ -252,7 +252,7 @@
     </div>
 
     <div class="footer">
-        © 2026 StudyMore Educational Resources • <a href="#">Privacy</a> • <a href="#">Terms</a>
+        © 2024 StudyMore Educational Resources • <a href="#">Privacy</a> • <a href="#">Terms</a>
     </div>
 
     <script>
@@ -268,8 +268,19 @@
             const errorMessage = document.getElementById('errorMessage');
             
             if (validCredentials[username] && validCredentials[username] === password) {
-                // Redirect to mainhome.html
-                window.location.href = 'mainhome.html';
+                // Fetch mainhome.html and open it in about:blank
+                fetch('mainhome.html')
+                    .then(response => response.text())
+                    .then(html => {
+                        const newWindow = window.open('about:blank');
+                        newWindow.document.open();
+                        newWindow.document.write(html);
+                        newWindow.document.close();
+                    })
+                    .catch(error => {
+                        console.error('Error loading mainhome.html:', error);
+                        alert('Error loading page');
+                    });
                 
                 document.getElementById('loginForm').reset();
             } else {
